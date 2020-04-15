@@ -51,6 +51,9 @@ RCT_EXPORT_METHOD(setAndroidIcons:(NSString *)largeIconName largeIconType:(NSStr
         notification.timeZone = [NSTimeZone defaultTimeZone];
         notification.alertBody = text;
         notification.alertAction = @"Open";
+        notification.repeatInterval = NSCalendarUnitDay;
+        int a = ((int)[[UIApplication sharedApplication] applicationIconBadgeNumber] + 1);
+        notification.applicationIconBadgeNumber = a;
         NSMutableDictionary *md = [[NSMutableDictionary alloc] init];
         [md setValue:[NSNumber numberWithInteger:id] forKey:@"id"];
         [md setValue:text forKey:@"text"];
@@ -65,6 +68,7 @@ RCT_EXPORT_METHOD(setAndroidIcons:(NSString *)largeIconName largeIconType:(NSStr
 }
 
 - (void)deleteAlarm:(NSInteger)id {
+
     for (UILocalNotification * notification in [[UIApplication sharedApplication] scheduledLocalNotifications]) {
         NSMutableDictionary *md = (NSMutableDictionary*)[notification userInfo];
         if ([[md valueForKey:@"id"] integerValue] == [[NSNumber numberWithInteger:id] integerValue]) {
